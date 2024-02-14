@@ -1,0 +1,27 @@
+version: '3.5'
+
+networks:
+  minimal-workbench:
+    name: minimal-workbench_ldes-network
+
+services:
+  graphdb:
+    image: ontotext/graphdb:10.4.2
+    container_name: graphdb
+    ports:
+      # HTTP
+      - 7200:7200
+    networks:
+      - minimal-workbench
+
+  ldio-workbench:
+    container_name: minimal-workbench_ldio-workbench
+    image: ldes/ldi-orchestrator:1.13.0-SNAPSHOT # you can safely change this to the latest 1.x.y version
+    volumes:
+      - ./application.yml:/ldio/application.yml:ro
+      - ./LDES/:/ldio/ldes-client:rw
+    ports:
+      - 9004:8080
+    networks:
+      - minimal-workbench 
+

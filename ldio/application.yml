@@ -1,0 +1,20 @@
+server:
+  port: 8080
+
+orchestrator:
+  pipelines:
+    - name: my-first-pipeline
+      input:
+        name: be.vlaanderen.informatievlaanderen.ldes.ldi.client.LdioLdesClient
+        config:
+          url: https://brugge-ldes.geomobility.eu/observations/by-page?pageNumber=1
+          sourceFormat: application/n-quads
+          state: sqlite
+          keep-state: true
+      outputs:
+        - name: be.vlaanderen.informatievlaanderen.ldes.ldi.RepositoryMaterialiser
+          config:
+            sparql-host: http://host.docker.internal:7200
+            repository-id: LDES
+            named-graph: http://brugge-ldes.geomobility.eu/
+
